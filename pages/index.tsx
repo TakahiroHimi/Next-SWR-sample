@@ -1,4 +1,4 @@
-import { request } from "graphql-request";
+import { GraphQLClient } from "graphql-request";
 import useSWR from "swr";
 
 const API = "https://countries.trevorblades.com";
@@ -11,6 +11,8 @@ type FetchData = {
 };
 
 function MovieActors() {
+  const client = new GraphQLClient(API, { headers: {} })
+
   const { data, error } = useSWR<FetchData>(
     `
     query ExampleQuery {
@@ -20,7 +22,7 @@ function MovieActors() {
       }
     }
     `,
-    (query) => request(API, query)
+    (query) => client.request(query)
   );
 
   console.log(data);
