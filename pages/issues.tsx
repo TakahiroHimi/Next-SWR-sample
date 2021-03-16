@@ -14,16 +14,16 @@ type FetchData = {
         node: {
           id: string;
           title: string;
-        }
-      }[]
-    }
-  }
-}
+        };
+      }[];
+    };
+  };
+};
 
 function getIssues() {
   const client = new GraphQLClient(API, {
     headers: {
-      "Authorization":
+      Authorization:
         "bearer " + process.env.NEXT_PUBLIC_GITHUB_PERSONAL_ACCESSTOKEN,
     },
   });
@@ -51,20 +51,21 @@ function getIssues() {
         issuesFirst: issuesFirst,
       })
   );
-  
 
   if (error) return <div>failed to load</div>;
   if (!data) return <div>loading...</div>;
   return data.repository.issues.edges.map((issue) => (
     <li key={issue.node.id}>{issue.node.title}</li>
-  ))
+  ));
 }
 
-const IndexPage = () => (
+const IssuesPage = () => (
   <>
-    <h1>{repositoryOwner}/{repositoryName} Issue List</h1>
+    <h1>
+      {repositoryOwner}/{repositoryName} Issue List
+    </h1>
     {getIssues()}
   </>
 );
 
-export default IndexPage;
+export default IssuesPage;
