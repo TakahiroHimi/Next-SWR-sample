@@ -3,6 +3,15 @@ import useSWR from "swr";
 
 const API = "https://countries.trevorblades.com"; // GraphQLエンドポイントのURL
 
+const query = `
+query ExampleQuery {
+  countries {
+    code
+    name
+  }
+}
+`;
+
 type FetchData = {
   countries: {
     code: string;
@@ -11,16 +20,8 @@ type FetchData = {
 };
 
 function getCountries() {
-  const { data, error } = useSWR<FetchData>(
-    `
-    query ExampleQuery {
-      countries {
-        code
-        name
-      }
-    }
-    `,
-    (query) => request(API, query)
+  const { data, error } = useSWR<FetchData>(query, (query) =>
+    request(API, query)
   );
 
   if (error) return <div>failed to load</div>;
