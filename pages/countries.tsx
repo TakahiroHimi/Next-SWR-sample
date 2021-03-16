@@ -30,11 +30,11 @@ function getCountries() {
   ));
 }
 
-const IndexPage = () => (
+const CountriesPage = () => (
   <>
     <h1>Country List</h1>
     {getCountries()}
   </>
 );
 
-export default IndexPage;
+export default CountriesPage;
