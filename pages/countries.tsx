@@ -1,7 +1,7 @@
 import { request } from "graphql-request";
 import useSWR from "swr";
 
-const API = "https://countries.trevorblades.com";
+const API = "https://countries.trevorblades.com"; // GraphQLエンドポイントのURL
 
 type FetchData = {
   countries: {

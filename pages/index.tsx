@@ -1,16 +1,26 @@
 import { GraphQLClient } from "graphql-request";
 import useSWR from "swr";
-import { Repository } from "../types";
 
-const API = "https://api.github.com/graphql";
+const API = "https://api.github.com/graphql"; // GraphQLエンドポイントのURL
+const repositoryOwner = "octocat";            // 取得するリポジトリ所有者のユーザー名
+const repositoryName = "Hello-World";         // 取得するリポジトリの名前
+const issuesFirst = 100;                      // 取得するIssueの数
 
 type FetchData = {
   repository: {
     name: string;
+    issues: {
+      edges: {
+        node: {
+          id: string;
+          title: string;
+        }
+      }[]
+    }
   }
 }
 
-function MovieActors() {
+function getIssues() {
   const client = new GraphQLClient(API, {
     headers: {
       "Authorization":
@@ -36,26 +46,24 @@ function MovieActors() {
     `,
     (query) =>
       client.request(query, {
-        repositoryOwner: "TakahiroHimi",
-        repositoryName: "NextAuth-sample",
-        issuesFirst: 10,
+        repositoryOwner: repositoryOwner,
+        repositoryName: repositoryName,
+        issuesFirst: issuesFirst,
       })
   );
-
-  setTimeout(() => {
-    console.log("test", data?.repository.name);
-  }, 5000);
   
 
   if (error) return <div>failed to load</div>;
   if (!data) return <div>loading...</div>;
-  return <><p>{data.repository.name}</p></>;
+  return data.repository.issues.edges.map((issue) => (
+    <li key={issue.node.id}>{issue.node.title}</li>
+  ))
 }
 
 const IndexPage = () => (
   <>
-    <h1>Hello Next.js 👋</h1>
-    {MovieActors()}
+    <h1>{repositoryOwner}/{repositoryName} Issue List</h1>
+    {getIssues()}
   </>
 );
 
