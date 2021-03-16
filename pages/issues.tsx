@@ -6,6 +6,22 @@ const repositoryOwner = "octocat";            // 取得するリポジトリ所�
 const repositoryName = "Hello-World";         // 取得するリポジトリの名前
 const issuesFirst = 100;                      // 取得するIssueの数
 
+const query = `
+query GetRepository($repositoryOwner: String!, $repositoryName: String!, $issuesFirst: Int) {
+  repository(owner: $repositoryOwner, name: $repositoryName) {
+    name
+    issues(first: $issuesFirst){
+      edges {
+        node {
+          id
+          title
+        }
+      }
+    }
+  }
+}
+`;
+
 type FetchData = {
   repository: {
     name: string;
@@ -28,28 +44,12 @@ function getIssues() {
     },
   });
 
-  const { data, error } = useSWR<FetchData>(
-    `
-    query GetRepository($repositoryOwner: String!, $repositoryName: String!, $issuesFirst: Int) {
-      repository(owner: $repositoryOwner, name: $repositoryName) {
-        name
-        issues(first: $issuesFirst){
-          edges {
-            node {
-              id
-              title
-            }
-          }
-        }
-      }
-    }
-    `,
-    (query) =>
-      client.request(query, {
-        repositoryOwner: repositoryOwner,
-        repositoryName: repositoryName,
-        issuesFirst: issuesFirst,
-      })
+  const { data, error } = useSWR<FetchData>(query, (query) =>
+    client.request(query, {
+      repositoryOwner: repositoryOwner,
+      repositoryName: repositoryName,
+      issuesFirst: issuesFirst,
+    })
   );
 
   if (error) return <div>failed to load</div>;
