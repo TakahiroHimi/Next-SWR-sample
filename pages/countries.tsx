@@ -19,7 +19,7 @@ type FetchData = {
   }[];
 };
 
-function getCountries() {
+const getCountries = () => {
   const { data, error } = useSWR<FetchData>(query, (query) =>
     request(API, query)
   );
@@ -29,7 +29,7 @@ function getCountries() {
   return data.countries.map((country) => (
     <li key={country.code}>{country.name}</li>
   ));
-}
+};
 
 const CountriesPage = () => (
   <>

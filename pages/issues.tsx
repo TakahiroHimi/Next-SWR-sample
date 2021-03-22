@@ -2,9 +2,9 @@ import { GraphQLClient } from "graphql-request";
 import useSWR from "swr";
 
 const API = "https://api.github.com/graphql"; // GraphQLエンドポイントのURL
-const repositoryOwner = "octocat";            // 取得するリポジトリ所有者のユーザー名
-const repositoryName = "Hello-World";         // 取得するリポジトリの名前
-const issuesFirst = 100;                      // 取得するIssueの数
+const repositoryOwner = "octocat"; // 取得するリポジトリ所有者のユーザー名
+const repositoryName = "Hello-World"; // 取得するリポジトリの名前
+const issuesFirst = 100; // 取得するIssueの数
 
 const query = `
 query GetRepository($repositoryOwner: String!, $repositoryName: String!, $issuesFirst: Int) {
@@ -36,7 +36,7 @@ type FetchData = {
   };
 };
 
-function getIssues() {
+const getIssues = () => {
   const client = new GraphQLClient(API, {
     headers: {
       Authorization:
@@ -57,7 +57,7 @@ function getIssues() {
   return data.repository.issues.edges.map((issue) => (
     <li key={issue.node.id}>{issue.node.title}</li>
   ));
-}
+};
 
 const IssuesPage = () => (
   <>
