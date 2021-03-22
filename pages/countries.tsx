@@ -1,15 +1,15 @@
-import { request } from "graphql-request";
+import { request, gql } from "graphql-request";
 import useSWR from "swr";
 
 const API = "https://countries.trevorblades.com"; // GraphQLエンドポイントのURL
 
-const query = `
-query ExampleQuery {
-  countries {
-    code
-    name
+const query = gql`
+  query ExampleQuery {
+    countries {
+      code
+      name
+    }
   }
-}
 `;
 
 type FetchData = {

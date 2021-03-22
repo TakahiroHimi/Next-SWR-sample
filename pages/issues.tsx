@@ -1,4 +1,4 @@
-import { GraphQLClient } from "graphql-request";
+import { GraphQLClient, gql } from "graphql-request";
 import useSWR from "swr";
 
 const API = "https://api.github.com/graphql"; // GraphQLエンドポイントのURL
@@ -6,20 +6,24 @@ const repositoryOwner = "octocat"; // 取得するリポジトリ所有者のユ
 const repositoryName = "Hello-World"; // 取得するリポジトリの名前
 const issuesFirst = 100; // 取得するIssueの数
 
-const query = `
-query GetRepository($repositoryOwner: String!, $repositoryName: String!, $issuesFirst: Int) {
-  repository(owner: $repositoryOwner, name: $repositoryName) {
-    name
-    issues(first: $issuesFirst){
-      edges {
-        node {
-          id
-          title
+const query = gql`
+  query GetRepository(
+    $repositoryOwner: String!
+    $repositoryName: String!
+    $issuesFirst: Int
+  ) {
+    repository(owner: $repositoryOwner, name: $repositoryName) {
+      name
+      issues(first: $issuesFirst) {
+        edges {
+          node {
+            id
+            title
+          }
         }
       }
     }
   }
-}
 `;
 
 type FetchData = {
