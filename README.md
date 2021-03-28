@@ -6,7 +6,7 @@
     ```.env.local
     NEXT_PUBLIC_GITHUB_PERSONAL_ACCESSTOKEN=取得したトークン
     ```
-  ※本番環境にデプロイする際は`NEXT_PUBLIC_`のプリフィクスがついた環境変数にシークレットな情報を設定するのは避ける
+    ※本番環境にデプロイする際は`NEXT_PUBLIC_`のプリフィクスがついた環境変数にシークレットな情報を設定するのは避ける
 1. パッケージインストール・アプリ実行
     ```bash
     yarn install
