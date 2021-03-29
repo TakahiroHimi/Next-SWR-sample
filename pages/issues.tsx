@@ -48,12 +48,14 @@ const getIssues = () => {
     },
   });
 
-  const { data, error } = useSWR<FetchData>(query, (query) =>
-    client.request(query, {
-      repositoryOwner: repositoryOwner,
-      repositoryName: repositoryName,
-      issuesFirst: issuesFirst,
-    })
+  const { data, error } = useSWR<FetchData>(
+    [query, repositoryOwner, repositoryName, issuesFirst],
+    (query, repositoryOwner, repositoryName, issuesFirst) =>
+      client.request(query, {
+        repositoryOwner: repositoryOwner,
+        repositoryName: repositoryName,
+        issuesFirst: issuesFirst,
+      })
   );
 
   if (error) return <div>failed to load</div>;
