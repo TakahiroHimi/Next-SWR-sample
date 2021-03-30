@@ -6,7 +6,7 @@ const repositoryOwner = "octocat"; // 取得するリポジトリ所有者のユ
 const repositoryName = "Hello-World"; // 取得するリポジトリの名前
 const issuesFirst = 100; // 取得するIssueの数
 
-const query = gql`
+const getRepositoryQuery = gql`
   query GetRepository(
     $repositoryOwner: String!
     $repositoryName: String!
@@ -49,12 +49,12 @@ const getIssues = () => {
   });
 
   const { data, error } = useSWR<FetchData>(
-    [query, repositoryOwner, repositoryName, issuesFirst],
-    (query, repositoryOwner, repositoryName, issuesFirst) =>
+    [getRepositoryQuery, repositoryOwner, repositoryName, issuesFirst],
+    (query, owner, name, first) =>
       client.request(query, {
-        repositoryOwner: repositoryOwner,
-        repositoryName: repositoryName,
-        issuesFirst: issuesFirst,
+        repositoryOwner: owner,
+        repositoryName: name,
+        issuesFirst: first,
       })
   );
 
